@@ -1,0 +1,11 @@
+# --- Phase 0: Web framework ---
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.6
+
+# --- Phase 0: Configuration ---
+pydantic>=2.5.2
+pydantic-settings>=2.5.2
+python-dotenv>=1.0.1
+pymupdf
+python-multipart
+requirements.txt
