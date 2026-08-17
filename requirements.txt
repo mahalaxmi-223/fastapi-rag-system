@@ -1,11 +1,15 @@
-# --- Phase 0: Web framework ---
+# --- Web framework ---
 fastapi>=0.115.0
 uvicorn[standard]>=0.30.6
 
-# --- Phase 0: Configuration ---
+# --- Configuration ---
 pydantic>=2.5.2
 pydantic-settings>=2.5.2
 python-dotenv>=1.0.1
+
+# --- Document processing ---
 pymupdf
 python-multipart
-requirements.txt
+
+# --- Embeddings ---
+sentence-transformers

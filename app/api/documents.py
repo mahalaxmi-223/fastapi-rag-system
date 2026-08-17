@@ -3,6 +3,7 @@ from fastapi import APIRouter, File, HTTPException, UploadFile
 from app.services.file_storage import FileStorageService
 from app.services.pdf_parser import PDFParserService
 from app.services.chunking import ChunkingService
+from app.services.embedding import EmbeddingService
 
 router = APIRouter(
     prefix="/documents",
@@ -12,6 +13,7 @@ router = APIRouter(
 storage = FileStorageService()
 parser = PDFParserService()
 chunker = ChunkingService()
+embedding_service = EmbeddingService()
 
 
 @router.post("/upload")
@@ -31,13 +33,21 @@ async def upload_document(file: UploadFile = File(...)):
     # Step 3: Create chunks
     chunks = chunker.create_chunks(parsed_pdf["text"])
 
-    # Step 4: Return document metadata
+    # Step 4: Extract text from each chunk
+    texts = [chunk.text for chunk in chunks]
+
+    # Step 5: Generate embeddings
+    embeddings = embedding_service.embed_batch(texts)
+
+    # Step 6: Return document metadata
     return {
         "filename": file.filename,
         "saved_as": saved_path.name,
         "pages": parsed_pdf["pages"],
         "characters": len(parsed_pdf["text"]),
         "chunks": len(chunks),
+        "embeddings": len(embeddings),
+        "embedding_dimension": len(embeddings[0]) if embeddings else 0,
         "chunk_preview": [
             {
                 "id": chunk.id,
