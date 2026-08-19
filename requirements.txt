@@ -13,3 +13,6 @@ python-multipart
 
 # --- Embeddings ---
 sentence-transformers
+
+# --- Vector database ---
+qdrant-client
